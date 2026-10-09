@@ -2154,5 +2154,45 @@
             handleScrollVisibility();
         }, {passive: true});
     </script>
+    <!-- Facebook SDK and Login Integration -->
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1077504378378568',
+      cookie     : true,
+      xfbml      : true,
+      version    : 'v19.0'
+    });
+      
+    FB.AppEvents.logPageView();   
+  };
+
+  function checkLoginState() {
+    FB.getLoginStatus(function(response) {
+      statusChangeCallback(response);
+    });
+  }
+
+  function statusChangeCallback(response) {
+    if (response.status === 'connected') {
+      FB.api('/me', {fields: 'name,email,picture'}, function(userInfo) {
+        alert('স্বাগতম ' + userInfo.name + '! আপনি সফলভাবে ফেসবুকের মাধ্যমে লগইন করেছেন।');
+        console.log('User Details:', userInfo);
+      });
+    } else {
+      alert('লগইন ব্যর্থ হয়েছে বা বাতিল করা হয়েছে।');
+    }
+  }
+</script>
+
+<!-- Facebook Login Button -->
+<fb:login-button 
+  scope="public_profile,email"
+  onlogin="checkLoginState();">
+</fb:login-button>
+
 </body>
 </html>
